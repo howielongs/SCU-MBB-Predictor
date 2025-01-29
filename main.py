@@ -1,19 +1,28 @@
-from data_loader import load_combined_data
-from model import normalize_data, train_model, classify_players
-from visualize import scatter_plot, bar_plot
+from src.data_loader import fetch_athletes, fetch_activities
 
-# File paths and API endpoint
-API_ENDPOINT = "https://example-api-endpoint"
-EXCEL_PATH = "data/performance_metrics.xlsx"
+# Fetch athlete data
+try:
+    athletes_df = fetch_athletes()
+    print("Athletes DataFrame:")
+    print(athletes_df.head())
+except Exception as e:
+    print(f"Error fetching athletes: {e}")
 
-# Load and preprocess data
-data = load_combined_data(API_ENDPOINT, EXCEL_PATH)
-data = normalize_data(data, ['bench_press', 'vertical_jump', 'sprint_speed', 'points', 'rebounds', 'assists'])
+# Fetch activity data
+try:
+    activities_df = fetch_activities()
+    print("Activities DataFrame:")
+    print(activities_df.head())
+except Exception as e:
+    print(f"Error fetching activities: {e}")
 
-# Train model and classify players
-model, data = train_model(data, ['bench_press', 'vertical_jump', 'sprint_speed'], 'points')
-data = classify_players(data, 'residual')
-
-# Visualize results
-scatter_plot(data, 'predicted_score', 'points', 'classification')
-bar_plot(data, 'classification')
+# Merge logic (if applicable)
+try:
+    # Example: If activities include `activity_athletes` linking to `athlete id`
+    merged_df = activities_df.explode("activity_athletes")  # Expand list of athletes
+    merged_df = merged_df.merge(athletes_df, left_on="activity_athletes", right_on="id", how="left")
+    
+    print("Merged DataFrame (Activities with Athlete Details):")
+    print(merged_df.head())
+except Exception as e:
+    print(f"Error merging data: {e}")
