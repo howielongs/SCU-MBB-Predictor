@@ -3,8 +3,7 @@ import plotly.express as px
 from app.data_loader import df
 
 def scoring_performance():
-    # Define color coding for efficiency (FG% over 50% = Green)
-    df["Efficiency"] = df["FG%"].apply(lambda x: "High Efficiency" if x > 0.50 else "Low Efficiency")
+    df["Efficiency"] = df["FG%"].apply(lambda x: "High Efficiency" if x > 0.45 else "Low Efficiency")
 
     fig = px.bar(
         df,
@@ -23,4 +22,9 @@ def scoring_performance():
         plot_bgcolor="rgba(0,0,0,0)"
     )
 
-    return html.Div([dcc.Graph(figure=fig)])
+    return html.Div([
+        html.H3("Scoring Performance", style={"textAlign": "center", "marginBottom": "10px"}),
+        html.P("This chart shows how many points each player scores per game, with color coding to indicate scoring efficiency (Field Goal %).",
+               style={"textAlign": "center", "fontSize": "16px", "marginBottom": "15px", "maxWidth": "800px", "marginLeft": "auto", "marginRight": "auto"}),
+        dcc.Graph(figure=fig)
+    ])

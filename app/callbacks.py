@@ -4,6 +4,8 @@ from data_loader import df
 from visuals.scoring_analysis import scoring_performance
 from visuals.shooting_efficiency import shooting_efficiency
 from visuals.points_distribution import points_distribution
+from visuals.physical_vs_performance import physical_vs_performance
+from visuals.strength_vs_performance import strength_vs_performance
 
 def register_callbacks(app):
     # ✅ Callback: Update Player Points Distribution Based on Position & PPG Filters
@@ -54,4 +56,8 @@ def register_callbacks(app):
             return shooting_efficiency()
         elif selected_tab == "points":
             return points_distribution()
+        elif selected_tab == "physical":
+            return physical_vs_performance()
+        elif selected_tab == "strength":  
+            return strength_vs_performance()
         return scoring_performance()  # Default Tab
