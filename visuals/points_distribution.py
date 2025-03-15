@@ -5,8 +5,8 @@ from app.data_loader import df
 def points_distribution():
     # Compute individual points from 3PT, 2PT, and FT
     df["Points_3PT"] = df["3FG%"] * df["PTS/G"]  # Approximate points from 3s
-    df["Points_2PT"] = (df["FG%"] - df["3FG%"]) * df["PTS/G"]  # Approximate points from 2s
-    df["Points_FT"] = df["FT%"] * df["PTS/G"]  # Approximate points from FT
+    df["Points_FT"] = (df["FG%"] - df["3FG%"]) * df["PTS/G"]  # Approximate points from 2s
+    df["Points_2PT"] = df["FT%"] * df["PTS/G"]  # Approximate points from FT
 
     df_melted = df.melt(id_vars=["Player"], value_vars=["Points_3PT", "Points_2PT", "Points_FT"], var_name="Point Type", value_name="Points")
 
